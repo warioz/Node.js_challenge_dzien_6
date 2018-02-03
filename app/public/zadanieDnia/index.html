@@ -1,1 +1,42 @@
-<!-- Twój kod -->
+<!DOCTYPE html>
+<html lang="pl">
+    <head>
+        <meta charset="utf-8" />
+        <title>FORUM</title>
+    </head>
+    <body>
+        Lista komentarzy:
+        <div id="commentList"></div>
+        <a href="/add">Dodaj komentarz</a>
+        <script>
+            (function(){
+                var getCookie = function(name){
+                    match = document.cookie.match(RegExp(name + '=([^;]+)'));
+
+                    if(match)
+                        return decodeURIComponent(match[1]);
+
+                    return undefined;
+                }
+    
+                const commentCookie = getCookie('comment');
+
+                if(commentCookie === undefined){
+                    document.querySelector("div#commentList").innerHTML = "<p>Brak komentarzy</p>";
+                    return;
+                }
+
+                let commentList = JSON.parse(commentCookie);
+                let elem = document.createElement("ul");
+
+                commentList.forEach(val => {
+                    let li = document.createElement("li");
+                    li.innerHTML = val;
+                    elem.appendChild(li);
+                });
+
+                document.querySelector("div#commentList").appendChild(elem);
+            })();
+        </script>
+    </body>
+</html>
